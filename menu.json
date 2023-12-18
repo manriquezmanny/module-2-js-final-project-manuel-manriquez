@@ -1,37 +1,37 @@
 {
     "breakfastPizza": {
         "name": "Breakfast Pizza",
-        "price": 12.00,
+        "price": 12,
         "imgSrc": "foodImages/breakfastPizza.jpg",
         "description": "A delicious breakfast pizza for the adventurous sort. Who knew Hardboiled egg slices would be so delicious on pizza!"
     },
     "cheesePizza": {
         "name": "Cheese Pizza",
-        "price": 10.00,
+        "price": 10,
         "imgSrc": "foodImages/cheesePizza.jpg",
         "description": "A classic cheese pizza made with the finest quality ingredients for the minimalistic individual."
     },
     "mushroomBites": {
         "name": "Mushroom Bites",
-        "price": 10.00,
+        "price": 10,
         "imgSrc": "foodImages/mushroomBites.jpg",
         "description": "Deliciously baked pizza squares topped with the finest mushrooms available."
     },
     "pepperoniCheese": {
         "name": "Pepperoni and Cheese",
-        "price": 12.00,
+        "price": 12,
         "imgSrc": "foodImages/pepperoniCheese.jpg",
         "description": "The classic pepperoni and cheese combo baked to perfection in our state of the art pizza oven."
     },
     "sausagePizza": {
         "name": "Sausage Pizza",
-        "price": 12.00,
+        "price": 12,
         "imgSrc": "foodImages/sausagePizza.jpg",
         "description": "A fine pizza topped with quality sausage bits. Perfect for the carnivorous individual."
     },
     "vegetarianPizza": {
         "name": "Vegetarian Pizza",
-        "price": 12.00,
+        "price": 12,
         "imgSrc": "foodImages/vegetarianPizza.jpg",
         "description": "A pizza made for the vegetarian individual. Topped with all kinds of vegie staples!"
     }

@@ -112,28 +112,44 @@ function populateMenu() {
         secondCardBody.appendChild(priceTag);
         secondCardBody.appendChild(addToOrderBtn);
 
+        // Will use this to tie current pizza to current button.
+        let selectedPizza = addToOrderBtn.value;
+
         // Manipulating innerText/HTML where needed.
-        cardTitle.innerText = menu[pizza]["name"];
-        description.innerText = menu[pizza]["description"];
-        priceTag.innerHTML = `<strong>Price:</strong> $${menu[pizza]["price"]}`;
+        cardTitle.innerText = menu[addToOrderBtn.value]["name"];
+        description.innerText = menu[addToOrderBtn.value]["description"];
+        priceTag.innerHTML = `<strong>Price:</strong> $${menu[pizza]["price"]}.00`;
         addToOrderBtn.innerText = "Add to Order";
         radioSmallLabel.innerText = " small + $0.00";
         radioMediumLabel.innerText = " medium + $2.00";
         radioLargeLabel.innerText = " large + $4.00";
+
+        // Adding event listeners to medium and large radio buttons to remove default attribute.
+        radioMedium.addEventListener("click", () => {
+            priceTag.innerHTML = `<strong>Price:</strong> $${(menu[selectedPizza]["price"]) + 2}.00`;
+        })
+        radioLarge.addEventListener("click", () => {
+            priceTag.innerHTML = `<strong>Price:</strong> $${(menu[selectedPizza]["price"]) + 4}.00`;
+        })
+        radioSmall.addEventListener("click", () => {
+            priceTag.innerHTML = priceTag.innerHTML = `<strong>Price:</strong> $${menu[selectedPizza]["price"]}.00`;
+        })
         
         // Adding an event listener to each "add to order" button.
         addToOrderBtn.addEventListener("click", () => {
             // Creating vars to add to 2-dimensional globalOrder array.
             let size = radiosDiv.querySelector("input:checked").value;
-            let selectedPizza = addToOrderBtn.value;
             let selectedPrice;
             // Note to self: Maybe use switch statement here.
             if(size === "small") {
-                selectedPrice = menu[pizza]["price"] + ".00";
+                selectedPrice = menu[selectedPizza]["price"];
+                console.log(selectedPrice);
             }else if (size === "medium") {
-                selectedPrice = String(parseFloat(menu[pizza]["price"]) + 2.00) + ".00";
-            }else if (size ==="large") {
-                selectedPrice = String(parseFloat(menu[pizza]["price"]) + 4.00) + ".00";
+                selectedPrice = menu[selectedPizza]["price"] + 2;
+                console.log(selectedPrice);
+            }else{
+                selectedPrice = menu[selectedPizza]["price"] + 4;
+                console.log(selectedPrice);
             }
             globalOrder.push([selectedPizza, size, selectedPrice]);
             localStorage.setItem("order", JSON.stringify(globalOrder));
@@ -205,7 +221,7 @@ function populateReviewOrder() {
         const size = document.createElement("td");
         size.innerText = storageOrder[i][1];
         const price = document.createElement("td");
-        price.innerText = storageOrder[i][2];
+        price.innerText = "$" + String(storageOrder[i][2]) + ".00";
         const btnTableData = document.createElement("td");
         const removeBtn = document.createElement("button");
         removeBtn.classList.add("btn", "btn-danger");
