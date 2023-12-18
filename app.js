@@ -48,18 +48,18 @@ function populateMenu() {
         radioSmall.setAttribute("type", "radio");
         radioSmall.setAttribute("id", menu[pizza]["name"].replace(" ", "-") + "-small");
         radioSmall.setAttribute("name", `${menu[pizza]["name"].replace(" ", "-").toLowerCase()}-size`);
-        radioSmall.setAttribute("value", "small");
+        radioSmall.setAttribute("value", "Small");
         radioSmall.setAttribute("checked", "checked");
         const radioMedium = document.createElement("input");
         radioMedium.setAttribute("type", "radio");
         radioMedium.setAttribute("id", menu[pizza]["name"].replace(" ", "-") + "-medium");
         radioMedium.setAttribute("name", `${menu[pizza]["name"].replace(" ", "-").toLowerCase()}-size`);
-        radioMedium.setAttribute("value", "medium");
+        radioMedium.setAttribute("value", "Medium");
         const radioLarge = document.createElement("input");
         radioLarge.setAttribute("type", "radio");
         radioLarge.setAttribute("id", menu[pizza]["name"].replace(" ", "-") + "-large");
         radioLarge.setAttribute("name", `${menu[pizza]["name"].replace(" ", "-").toLowerCase()}-size`);
-        radioLarge.setAttribute("value", "large");
+        radioLarge.setAttribute("value", "Large");
         const radioSmallLabel = document.createElement("label");
         radioSmallLabel.setAttribute("for", menu[pizza]["name"].replace(" ", "-") + "-small");
         const radioMediumLabel = document.createElement("label");
@@ -130,15 +130,15 @@ function getLocalStorage(key) {
 }
 
 // Function for removing item from local storage.
-function removeLocalStorage(item) {
+function removeLocalStorage(index) {
     // Getting local storage object.
     let storageOrder = getLocalStorage("order");
     // Clearing current local storage.
     localStorage.clear();
     // splicing Array I got from local storage to remove item.
-    let newStorageOrder = storageOrder.splice(storageOrder.indexOf(item), 1);
+    storageOrder.splice(index, 1);
     // Setting globalOrder variable to new order.
-    globalOrder = newStorageOrder;
+    globalOrder = storageOrder;
     // Setting local Storage to new array without item removed.
     localStorage.setItem("order", JSON.stringify(globalOrder));
 }
@@ -166,8 +166,9 @@ function populateReviewOrder() {
     for (let i = 0; i < storageOrder.length; i++) {
         // Creating necessary elements to dynamically populate table.
         const tableRow = document.createElement("tr");
-        const itemNo = document.createElement("tr");
+        const itemNo = document.createElement("th");
         itemNo.innerText = i + 1;
+        itemNo.setAttribute("scope", "row");
         const name = document.createElement("td");
         name.innerText = menu[storageOrder[i][0]]["name"];
         const size = document.createElement("td");
@@ -191,8 +192,7 @@ function populateReviewOrder() {
         // Adding Event Listeners to remove buttons that will remove item from order on click.
         removeBtn.addEventListener("click", () => {
             // Passing in array I want removed from order.
-            console.log([menu[globalOrder[i][0]], menu[globalOrder[i][1]], menu[globalOrder[i][2]]]);
-            removeLocalStorage([menu[globalOrder[i][0]], menu[globalOrder[i][1]], menu[globalOrder[i][2]]]);
+            removeLocalStorage(i);
             populateReviewOrder();
         })
     }
