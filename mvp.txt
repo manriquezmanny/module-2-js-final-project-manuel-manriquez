@@ -1,0 +1,24 @@
+MVP for Final Project.
+
+Order Pizza app
+
+* UI *
+- Menu where user can see available pizzas and add to order.
+- Review area where users can review and place the order.
+
+* Functionality *
+- User can add pizza's to order and choose the size of pizza.
+- Taxes are calculated.
+- Total price is calculated depending on taxes and sizes of pizzas.
+- Persist Ongoing order to client side localStorage.
+
+* Programming Ideas for JS script *
+- Pizza Class
+- Have a Menu Array of Pizza Objects.
+- Have an Order Array of items in order.
+- Function for adding pizza to Order.
+- Function for removing pizza from order.
+- Function for clearing order after it is placed.
+- Function for calculating taxes depending on total price.
+- Function for hiding and displaying Elements.
+- HTML will update dynamically based on how many pizza objects in Menu array.

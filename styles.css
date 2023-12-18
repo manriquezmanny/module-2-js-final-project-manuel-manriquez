@@ -1,0 +1,50 @@
+body {
+    height: 100dvh;
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+}
+#nav-wrapper{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 40px;
+    border: 1px solid black;
+    background-color: darkred;
+}
+
+#menu-container {
+    height: 80%;
+    width: 90%;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #333;
+    overflow-y: auto;
+    padding-top: 12px;
+}
+
+#menu {
+    display: flex;
+}
+
+#menu-container::-webkit-scrollbar {
+    display:none;
+}
+
+.card {
+    margin-bottom: 12px !important;
+}
+
+.card-img-top {
+    height: 250px;
+}
+
+.card-body {
+    overflow-y: scroll;
+}
+.card-body::-webkit-scrollbar {
+    display:none;
+}
+
+.card-text {
+    height:96px;
+}

@@ -1,0 +1,6 @@
+12/13/2023 1:23 - 1:30
+Created google drive folder and local repository
+for part 2 and 3 of final project "Documents & Dev Log".
+
+12/13/2023 3:00 - 5:26
+Started working on a basic UI for my final project.
