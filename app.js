@@ -132,7 +132,7 @@ function populateMenu() {
                 selectedPrice = menu[pizza]["price"] + ".00";
             }else if (size === "medium") {
                 selectedPrice = String(parseFloat(menu[pizza]["price"]) + 2.00) + ".00";
-            }else{
+            }else if (size ==="large") {
                 selectedPrice = String(parseFloat(menu[pizza]["price"]) + 4.00) + ".00";
             }
             globalOrder.push([selectedPizza, size, selectedPrice]);
