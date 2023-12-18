@@ -117,9 +117,9 @@ function populateMenu() {
         description.innerText = menu[pizza]["description"];
         priceTag.innerHTML = `<strong>Price:</strong> $${menu[pizza]["price"]}`;
         addToOrderBtn.innerText = "Add to Order";
-        radioSmallLabel.innerText = " Small + $0.00";
-        radioMediumLabel.innerText = " Medium + $2.00";
-        radioLargeLabel.innerText = " Large + $4.00";
+        radioSmallLabel.innerText = " small + $0.00";
+        radioMediumLabel.innerText = " medium + $2.00";
+        radioLargeLabel.innerText = " large + $4.00";
         
         // Adding an event listener to each "add to order" button.
         addToOrderBtn.addEventListener("click", () => {
