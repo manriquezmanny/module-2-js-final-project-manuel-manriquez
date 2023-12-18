@@ -13,12 +13,11 @@ Order Pizza app
 - Persist Ongoing order to client side localStorage.
 
 * Programming Ideas for JS script *
-- Pizza Class
-- Have a Menu Array of Pizza Objects.
-- Have an Order Array of items in order.
+- Have a JSON Menu of pizza objects.
+- Have a 2-dimensional Order Array of items in order.
 - Function for adding pizza to Order.
 - Function for removing pizza from order.
 - Function for clearing order after it is placed.
 - Function for calculating taxes depending on total price.
 - Function for hiding and displaying Elements.
-- HTML will update dynamically based on how many pizza objects in Menu array.
+- HTML will update dynamically based on how many pizza objects are in Menu array.

@@ -7,6 +7,7 @@ const reviewBtn = document.querySelector("#review-btn");
 const menuContainer = document.querySelector("#menu");
 const reviewOrder = document.querySelector("#review-order");
 let globalOrder = [];
+let successOrder;
 
 // Toggle UI functionality for Menu/Review sections.
 function toggleMenuOrder() {
@@ -24,6 +25,23 @@ function toggleMenuOrder() {
     menuBtn.style.display = "block";
     reviewBtn.style.display = "none";
 }
+
+
+// Function to update icon in button.
+function updateButtonIcons() {
+    // Getting number of items in order.
+    let number = globalOrder.length;
+
+    // Setting class name for icon.
+    if (number === 0 ) {
+        menuBtn.innerHTML = "Back To Menu";
+        reviewBtn.innerHTML = "Review Order";
+        return;
+    }
+    menuBtn.innerHTML = `Back To Menu <i class="bi-${number}-circle"></i>`;
+    reviewBtn.innerHTML = `Review Order <i class="bi-${number}-circle"></i>`;
+}
+
 
 // Populate Menu dynamically using imported menu data from local JSON file.
 function populateMenu() {
@@ -119,15 +137,20 @@ function populateMenu() {
             }
             globalOrder.push([selectedPizza, size, selectedPrice]);
             localStorage.setItem("order", JSON.stringify(globalOrder));
+
+            // Updating button icons.
+            updateButtonIcons();
         })
     }
 }
+
 
 // Function for getting Order data from local storage.
 function getLocalStorage(key) {
     let data = JSON.parse(localStorage.getItem(key));
     return data;
 }
+
 
 // Function for removing item from local storage.
 function removeLocalStorage(index) {
@@ -143,6 +166,7 @@ function removeLocalStorage(index) {
     localStorage.setItem("order", JSON.stringify(globalOrder));
 }
 
+
 // Function to populate globalOrder if local storage has items.
 function populateGlobalOrder() {
     if (localStorage.getItem("order")) {
@@ -151,8 +175,14 @@ function populateGlobalOrder() {
             globalOrder.push(items[i]);
         }
     }
-    console.log(globalOrder);
 }
+
+
+// Succesful Order Alert.
+function success() {
+    alert("Your Order has been placed. We accept cash or card at the front desk!");
+}
+
 
 // Function to Dynamically populate Review Order Table based on items in Local Storage Order.
 function populateReviewOrder() {
@@ -161,6 +191,7 @@ function populateReviewOrder() {
     // Resetting innerHTML in case item was removed.
     tableBody.innerHTML = "";
     let storageOrder = getLocalStorage("order");
+
 
     // Iterating over local storage order.
     for (let i = 0; i < storageOrder.length; i++) {
@@ -194,23 +225,93 @@ function populateReviewOrder() {
             // Passing in array I want removed from order.
             removeLocalStorage(i);
             populateReviewOrder();
+            updateButtonIcons();
         })
     }
 
+
+    // After populating items, calculating total price. If no items, directing to Menu.
+    if (globalOrder.length > 0) {
+        let totalPrice = 0;
+        for (let i = 0; i < globalOrder.length; i++ ) {
+            totalPrice += parseFloat(globalOrder[i][2]);
+        }
+
+        // Variables to help calculate and display sales tax and Total price.
+        const totalHeader = document.createElement("h6");
+        totalHeader.classList.add("float-right");
+        totalHeader.innerText = `Total Price: $${totalPrice.toFixed(2)}`;
+        const californiaSalesTax = 0.075;
+        
+        // Semi Final row elements to create semi final row that will only show sales tax.
+        const semiFinalTableRow = document.createElement("tr");
+        const emptyItemNo = document.createElement("th");
+        const emptyPizza = document.createElement("td");
+        const emptySize = document.createElement("td");
+        const salesTaxAmount = document.createElement("td");
+        salesTaxAmount.innerText = `Sales Tax: $${(totalPrice * californiaSalesTax).toFixed(2)}`;
+        const emptyButtonOne = document.createElement("td");
+
+        // Final row elements to append to final row that will only show total price and Place Order button. 
+        const finalTableRow = document.createElement("tr");
+        const emptyItemNoAgain = document.createElement("th");
+        const emptyPizzaAgain = document.createElement("td");
+        const emptySizeAgain = document.createElement("td");
+        const totalPriceAmount = document.createElement("th");
+        totalPriceAmount.innerText = `Total Price: $${(totalPrice * californiaSalesTax + totalPrice).toFixed(2)}`;
+        const placeOrderTableData = document.createElement("td");
+        const placeOrderBtn = document.createElement("button");
+        placeOrderBtn.classList.add("btn", "btn-success");
+        placeOrderBtn.innerText = "Place Order";
+
+        // Appending semi final row to table body. Shows Sales tax.
+        tableBody.appendChild(semiFinalTableRow);
+        semiFinalTableRow.appendChild(emptyItemNo);
+        semiFinalTableRow.appendChild(emptyPizza);
+        semiFinalTableRow.appendChild(emptySize);
+        semiFinalTableRow.appendChild(salesTaxAmount);
+        semiFinalTableRow.appendChild(emptyButtonOne);
+
+        // Appending final row to table body. Shows Final Price.
+        tableBody.appendChild(finalTableRow);
+        finalTableRow.appendChild(emptyItemNoAgain);
+        finalTableRow.appendChild(emptyPizzaAgain);
+        finalTableRow.appendChild(emptySizeAgain);
+        finalTableRow.appendChild(totalPriceAmount);
+        finalTableRow.appendChild(placeOrderTableData);
+        placeOrderTableData.appendChild(placeOrderBtn);
+
+        // Event Listener for Place Order button
+        placeOrderBtn.addEventListener("click", function ordered() {
+            localStorage.clear();
+            globalOrder = [];
+            success();
+            populateReviewOrder();
+        })
+    }
 }
+
+
 // Init function to run on app launch. Purpose to keep global scope as clean as possible.
 function init() {
-    //Populating Global order object if items in local storage.
+    // Populating Global order object if items in local storage.
     populateGlobalOrder();
 
-    // Adding Event Listeners
-    menuBtn.addEventListener("click", toggleMenuOrder);
+    // Updating button icons.
+    updateButtonIcons();
+
+    // Adding Event Listeners to non Dynamicaly created buttons.
+    menuBtn.addEventListener("click", () => {
+        toggleMenuOrder();
+        updateButtonIcons();
+    });
     reviewBtn.addEventListener("click", () => {
         toggleMenuOrder();
         populateReviewOrder();
+        updateButtonIcons();
     });
 
-    // Populating Menu on DOM content loaded.
+    // Populating Menu
     populateMenu();
 }
 

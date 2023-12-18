@@ -3,6 +3,7 @@ body {
     display:flex;
     flex-direction:column;
     justify-content: center;
+    background-color:antiquewhite !important;
 }
 #nav-wrapper{
     display: flex;
@@ -20,6 +21,7 @@ body {
     box-shadow: 0 0 15px #333;
     overflow-y: auto;
     padding-top: 12px;
+    background-color: white !important;
 }
 
 #menu {
@@ -48,10 +50,36 @@ body {
 .card-text {
     height:86px;
     overflow-y: scroll;
+    font-family:'segoe UI';
     border: 1px dashed gray;
     padding: 5px;
+    border-radius:3px;
 }
 
 .card-text::-webkit-scrollbar {
     display:none;
+}
+
+.float-right {
+    float: right;
+}
+
+#review-order{
+    height: 100%;
+}
+
+#logo {
+    float: left;
+    height:90px;
+    width:90px;
+}
+
+#restaurant-name{
+    float:right;
+    margin-top:10px;
+}
+
+.empty-order-msg{
+    text-align:center;
+    padding: 25px;
 }
