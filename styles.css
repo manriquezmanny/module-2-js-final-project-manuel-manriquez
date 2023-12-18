@@ -46,5 +46,12 @@ body {
 }
 
 .card-text {
-    height:96px;
+    height:86px;
+    overflow-y: scroll;
+    border: 1px dashed gray;
+    padding: 5px;
+}
+
+.card-text::-webkit-scrollbar {
+    display:none;
 }

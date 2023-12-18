@@ -6,7 +6,7 @@ const menuBtn = document.querySelector("#menu-btn");
 const reviewBtn = document.querySelector("#review-btn");
 const menuContainer = document.querySelector("#menu");
 const reviewOrder = document.querySelector("#review-order");
-const globalOrder = [];
+let globalOrder = [];
 
 // Toggle UI functionality for Menu/Review sections.
 function toggleMenuOrder() {
@@ -105,9 +105,19 @@ function populateMenu() {
         
         // Adding an event listener to each "add to order" button.
         addToOrderBtn.addEventListener("click", () => {
+            // Creating vars to add to 2-dimensional globalOrder array.
             let size = radiosDiv.querySelector("input:checked").value;
             let selectedPizza = addToOrderBtn.value;
-            globalOrder.push([selectedPizza, size]);
+            let selectedPrice;
+            // Note to self: Maybe use switch statement here.
+            if(size === "small") {
+                selectedPrice = menu[pizza]["price"] + ".00";
+            }else if (size === "medium") {
+                selectedPrice = String(parseFloat(menu[pizza]["price"]) + 2.00) + ".00";
+            }else{
+                selectedPrice = String(parseFloat(menu[pizza]["price"]) + 4.00) + ".00";
+            }
+            globalOrder.push([selectedPizza, size, selectedPrice]);
             localStorage.setItem("order", JSON.stringify(globalOrder));
         })
     }
@@ -117,6 +127,20 @@ function populateMenu() {
 function getLocalStorage(key) {
     let data = JSON.parse(localStorage.getItem(key));
     return data;
+}
+
+// Function for removing item from local storage.
+function removeLocalStorage(item) {
+    // Getting local storage object.
+    let storageOrder = getLocalStorage("order");
+    // Clearing current local storage.
+    localStorage.clear();
+    // splicing Array I got from local storage to remove item.
+    let newStorageOrder = storageOrder.splice(storageOrder.indexOf(item), 1);
+    // Setting globalOrder variable to new order.
+    globalOrder = newStorageOrder;
+    // Setting local Storage to new array without item removed.
+    localStorage.setItem("order", JSON.stringify(globalOrder));
 }
 
 // Function to populate globalOrder if local storage has items.
@@ -133,13 +157,44 @@ function populateGlobalOrder() {
 // Function to Dynamically populate Review Order Table based on items in Local Storage Order.
 function populateReviewOrder() {
     // Getting table body that I will insert elements to.
-    const tableBody = document.querySelector(tbody);
+    const tableBody = document.querySelector("#table-body");
+    // Resetting innerHTML in case item was removed.
+    tableBody.innerHTML = "";
+    let storageOrder = getLocalStorage("order");
 
-    // Creating Necessary Elements to populate Review Table.
-    for (let i = 0; i < getLocalStorage("order").length; i++) {
+    // Iterating over local storage order.
+    for (let i = 0; i < storageOrder.length; i++) {
+        // Creating necessary elements to dynamically populate table.
         const tableRow = document.createElement("tr");
+        const itemNo = document.createElement("tr");
+        itemNo.innerText = i + 1;
         const name = document.createElement("td");
-        name.innerText = menu[order[i][0]];
+        name.innerText = menu[storageOrder[i][0]]["name"];
+        const size = document.createElement("td");
+        size.innerText = storageOrder[i][1];
+        const price = document.createElement("td");
+        price.innerText = storageOrder[i][2];
+        const btnTableData = document.createElement("td");
+        const removeBtn = document.createElement("button");
+        removeBtn.classList.add("btn", "btn-danger");
+        removeBtn.innerText = "Remove";
+        
+        // Populating tableBody with dynamically constructed table rows.
+        tableBody.appendChild(tableRow);
+        tableRow.appendChild(itemNo);
+        tableRow.appendChild(name);
+        tableRow.appendChild(size);
+        tableRow.appendChild(price);
+        tableRow.appendChild(btnTableData);
+        btnTableData.appendChild(removeBtn);
+
+        // Adding Event Listeners to remove buttons that will remove item from order on click.
+        removeBtn.addEventListener("click", () => {
+            // Passing in array I want removed from order.
+            console.log([menu[globalOrder[i][0]], menu[globalOrder[i][1]], menu[globalOrder[i][2]]]);
+            removeLocalStorage([menu[globalOrder[i][0]], menu[globalOrder[i][1]], menu[globalOrder[i][2]]]);
+            populateReviewOrder();
+        })
     }
 
 }
@@ -150,7 +205,10 @@ function init() {
 
     // Adding Event Listeners
     menuBtn.addEventListener("click", toggleMenuOrder);
-    reviewBtn.addEventListener("click", toggleMenuOrder);
+    reviewBtn.addEventListener("click", () => {
+        toggleMenuOrder();
+        populateReviewOrder();
+    });
 
     // Populating Menu on DOM content loaded.
     populateMenu();
