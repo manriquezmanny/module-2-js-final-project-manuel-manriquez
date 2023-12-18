@@ -4,3 +4,16 @@ for part 2 and 3 of final project "Documents & Dev Log".
 
 12/13/2023 3:00 - 5:26
 Started working on a basic UI for my final project.
+
+12/17/2023 9PM - 12/18/2023 10am
+Finished dynamic Menu UI that loads menu items from JSON file
+Added Local Storage functionality
+added dynamically populating review section table for user order.
+fixed some bugs
+finished rough draft
+fixed more bugs
+testing
+
+12/18/2023 1PM - 2PM
+Fixed all bugs
+Have finished working project on netlify.

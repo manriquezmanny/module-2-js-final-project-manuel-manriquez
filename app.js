@@ -1,13 +1,19 @@
 // Importing menu data from local Json file I made.
 import menu from "./menu.json" assert {type: "json"};
 
+// Loading sound effects into variables.
+const buttonClick = new Audio("sounds/buttonClick.mp3");
+const removeItem = new Audio("sounds/removeItem.mp3");
+const orderUp = new Audio("sounds/orderUp.mp3");
+const menuReviewClick = new Audio("sounds/menuReviewClick.mp3");
+
 // Global Variables for toggle functionality.
 const menuBtn = document.querySelector("#menu-btn");
 const reviewBtn = document.querySelector("#review-btn");
 const menuContainer = document.querySelector("#menu");
 const reviewOrder = document.querySelector("#review-order");
 let globalOrder = [];
-let successOrder;
+
 
 // Toggle UI functionality for Menu/Review sections.
 function toggleMenuOrder() {
@@ -17,6 +23,7 @@ function toggleMenuOrder() {
         reviewOrder.style.display = "none";
         menuBtn.style.display = "none";
         reviewBtn.style.display = "block";
+        menuReviewClick.play();
         return;
     }
     // Switching to review section if we weren't in it.
@@ -24,6 +31,7 @@ function toggleMenuOrder() {
     reviewOrder.style.display = "block";
     menuBtn.style.display = "block";
     reviewBtn.style.display = "none";
+    menuReviewClick.play();
 }
 
 
@@ -156,6 +164,7 @@ function populateMenu() {
 
             // Updating button icons.
             updateButtonIcons();
+            buttonClick.play();
         })
     }
 }
@@ -168,7 +177,7 @@ function getLocalStorage(key) {
 }
 
 
-// Function for removing item from local storage.
+// Function for removing item from local storage and also globalOrder variable.
 function removeLocalStorage(index) {
     // Getting local storage object.
     let storageOrder = getLocalStorage("order");
@@ -196,6 +205,7 @@ function populateGlobalOrder() {
 
 // Succesful Order Alert.
 function success() {
+    updateButtonIcons();
     alert("Your Order has been placed. We accept cash or card at the front desk!");
 }
 
@@ -242,6 +252,7 @@ function populateReviewOrder() {
             removeLocalStorage(i);
             populateReviewOrder();
             updateButtonIcons();
+            removeItem.play();
         })
     }
 
@@ -301,6 +312,7 @@ function populateReviewOrder() {
         placeOrderBtn.addEventListener("click", function ordered() {
             localStorage.clear();
             globalOrder = [];
+            orderUp.play();
             success();
             populateReviewOrder();
         })
